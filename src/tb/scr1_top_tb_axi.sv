@@ -8,18 +8,50 @@
 `include "scr1_ipic.svh"
 `endif // SCR1_IPIC_EN
 
-module scr1_top_tb_axi ();
+module scr1_top_tb_axi (
+    input   logic                       clk,
+    input   logic                       rst_n,
+    output  logic [`SCR1_XLEN-1:0]      pc,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x01,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x02,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x03,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x04,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x05,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x06,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x07,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x08,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x09,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x10,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x11,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x12,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x13,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x14,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x15,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x16,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x17,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x18,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x19,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x20,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x21,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x22,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x23,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x24,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x25,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x26,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x27,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x28,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x29,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x30,
+    output  logic [`SCR1_XLEN-1:0]      gpr_x31);
 
 //------------------------------------------------------------------------------
 // Local parameters
 //------------------------------------------------------------------------------
-localparam logic [`SCR1_XLEN-1:0]   SCR1_EXIT_ADDR      = 32'h000000F8;
+localparam logic [`SCR1_XLEN-1:0]   SCR1_EXIT_ADDR      = 32'h00001d80;
 
 //------------------------------------------------------------------------------
 // Local signal declaration
 //------------------------------------------------------------------------------
-logic                                   rst_n;
-logic                                   clk         = 1'b0;
 logic                                   rtc_clk     = 1'b0;
 logic   [31:0]                          fuse_mhartid;
 integer                                 imem_req_ack_stall;
@@ -141,13 +173,13 @@ int unsigned                            tests_passed;
 int unsigned                            tests_total;
 int unsigned                            ret_val;
 
-always #5   clk     = ~clk;     // 100 MHz
-always #500 rtc_clk = ~rtc_clk; // 1 MHz
+// always clk = #5 ~clk;     // 100 MHz
+// always rtc_clk = #5 ~rtc_clk; // 1 MHz
 
-task reset();
-    rst_n       = 0;
-    #1 rst_n    = 1;
-endtask
+// task reset();
+//     rst_n       = 0;
+//     rst_n       = #1 1;
+// endtask
 
 `ifdef SCR1_DBGC_EN
 initial begin
@@ -162,9 +194,43 @@ initial begin
 end
 `endif // SCR1_DBGC_EN
 
+assign pc       = i_top.i_core_top.i_pipe_top.curr_pc;
+assign gpr_x01  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[1];
+assign gpr_x02  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[2];
+assign gpr_x03  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[3];
+assign gpr_x04  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[4];
+assign gpr_x05  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[5];
+assign gpr_x06  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[6];
+assign gpr_x07  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[7];
+assign gpr_x08  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[8];
+assign gpr_x09  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[9];
+assign gpr_x10  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[10];
+assign gpr_x11  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[11];
+assign gpr_x12  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[12];
+assign gpr_x13  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[13];
+assign gpr_x14  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[14];
+assign gpr_x15  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[15];
+assign gpr_x16  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[16];
+assign gpr_x17  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[17];
+assign gpr_x18  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[18];
+assign gpr_x19  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[19];
+assign gpr_x20  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[20];
+assign gpr_x21  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[21];
+assign gpr_x22  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[22];
+assign gpr_x23  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[23];
+assign gpr_x24  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[24];
+assign gpr_x25  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[25];
+assign gpr_x26  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[26];
+assign gpr_x27  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[27];
+assign gpr_x28  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[28];
+assign gpr_x29  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[29];
+assign gpr_x30  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[30];
+assign gpr_x31  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[31];
+
 //------------------------------------------------------------------------------
 // Run tests
 //------------------------------------------------------------------------------
+/*
 initial begin
     $value$plusargs("imem_pattern=%h", imem_req_ack_stall);
     $value$plusargs("dmem_pattern=%h", dmem_req_ack_stall);
@@ -211,6 +277,17 @@ initial begin
     $fclose(f_info);
     $fclose(f_results);
     $finish();
+end
+*/
+
+always @(posedge clk, negedge rst_n) begin
+    if (~rst_n) begin
+        $display("HELL0 SCR1");
+    end else begin
+        if (pc == SCR1_EXIT_ADDR) begin
+            $finish;
+        end
+    end
 end
 
 //------------------------------------------------------------------------------
@@ -335,8 +412,9 @@ scr1_top_axi i_top (
 //-------------------------------------------------------------------------------
 // Memory instance
 //-------------------------------------------------------------------------------
+// 32KB
 scr1_memory_tb_axi #(
-    .SIZE    (1*1024*1024 ),
+    .SIZE    (32*1024     ),
     .N_IF    (2           ),
     .W_ADR   (32          ),
     .W_DATA  (32          )

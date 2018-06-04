@@ -212,10 +212,12 @@ end
 // Hart STATE struct
 //-------------------------------------------------------------------------------
 
+/*
 assign dbgc_hart_state.halted   = dbg_halted;
 assign dbgc_hart_state.timeout  = dbgc_timeout_flag;
 assign dbgc_hart_state.error    = 1'b0;         // unused
 assign dbgc_hart_state.commit   = 1'b0;         // unused
+*/
 
 always_ff @(posedge clk, negedge rst_n) begin
     if (~rst_n) begin
@@ -225,6 +227,10 @@ always_ff @(posedge clk, negedge rst_n) begin
         dbgc_hart_state.dmode_cause.sstep       <= 1'b0;
         dbgc_hart_state.dmode_cause.brkpt       <= 1'b0;
         dbgc_hart_state.dmode_cause.brkpt_hw    <= 1'b0;
+        dbgc_hart_state.halted   <= dbg_halted;
+        dbgc_hart_state.timeout  <= dbgc_timeout_flag;
+        dbgc_hart_state.error    <= 1'b0;         // unused
+        dbgc_hart_state.commit   <= 1'b0;         // unused
     end else begin
         if (dbg_run2halt) begin
             dbgc_hart_state.except                  <= exu_exc_req;
@@ -240,6 +246,10 @@ always_ff @(posedge clk, negedge rst_n) begin
             dbgc_hart_state.dmode_cause.brkpt_hw    <= 1'b0;
 `endif // SCR1_BRKM_EN
         end // dbg_run2halt
+        dbgc_hart_state.halted   <= dbg_halted;
+        dbgc_hart_state.timeout  <= dbgc_timeout_flag;
+        dbgc_hart_state.error    <= 1'b0;         // unused
+        dbgc_hart_state.commit   <= 1'b0;         // unused
     end
 end
 

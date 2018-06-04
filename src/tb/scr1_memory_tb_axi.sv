@@ -143,9 +143,10 @@ endfunction : mem_write
 //-------------------------------------------------------------------------------
 // Load file to mem
 //-------------------------------------------------------------------------------
-always @(negedge rst_n) begin
+initial begin
+    $value$plusargs("mem=%s", stuff_file);
     memory = '{SIZE{'0}};
-    if(stuff_file.len()>0) $readmemh(stuff_file,memory);
+    $readmemh(stuff_file,memory);
 end
 
 generate for(gi=0; gi<N_IF; ++gi) begin : rw_if
@@ -234,6 +235,7 @@ end
 //-------------------------------------------------------------------------------
 // Assertions
 //-------------------------------------------------------------------------------
+/*
 SVA_TBMEM_AWADDR_404 :
     assert property (
         @(negedge clk) disable iff (~rst_n)
@@ -328,6 +330,8 @@ SVA_TBMEM_X_RREADY :
         rvalid[gi] |-> !$isunknown(rready[gi])
     )
     else $error("TBMEM: X state on rready[%0d]",gi);
+
+*/
 
 end endgenerate
 

@@ -137,8 +137,8 @@ parameter int unsigned  SCR1_CSR_MTVEC_BASE_RO_BITS = (`SCR1_XLEN-(SCR1_CSR_MTVE
 //-------------------------------------------------------------------------------
 // Parameters for simulation
 //-------------------------------------------------------------------------------
-//`define SCR1_SIM_ENV                    // enable simulation code (SVA, trace log)
-`define SCR1_TRACE_LOG_EN               // enable trace log
-`define SCR1_TRACE_LOG_FULL             // full trace log
+// `define SCR1_SIM_ENV                    // enable simulation code (SVA, trace log)
+// `define SCR1_TRACE_LOG_EN               // enable trace log
+// `define SCR1_TRACE_LOG_FULL             // full trace log
 
 `endif // SCR1_ARCH_DESCRIPTION_SVH
