@@ -195,6 +195,7 @@ logic                           rvc;
 logic                           load;
 logic                           store;
 logic [31:0]                    ls_addr;
+logic [1:0]                     ls_width;
 logic                           exception;
 logic                           csr_instr;
 
@@ -771,6 +772,16 @@ always_ff @(posedge clk) begin
         ls_addr             <= ialu_sum2_res;
         exception           <= exc_req;
         csr_instr           <= exu2csr_r_req | exu2csr_w_req;
+        case (exu_queue.lsu_cmd)
+            SCR1_LSU_CMD_LB,
+            SCR1_LSU_CMD_LBU,
+            SCR1_LSU_CMD_SB     : ls_width <= 2'b00;
+            SCR1_LSU_CMD_LH,
+            SCR1_LSU_CMD_LHU,
+            SCR1_LSU_CMD_SH     : ls_width <= 2'b01;
+            SCR1_LSU_CMD_LW,
+            SCR1_LSU_CMD_SW     : ls_width <= 2'b10;
+        endcase
     end
 end
 

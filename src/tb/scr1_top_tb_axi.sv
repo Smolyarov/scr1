@@ -53,6 +53,7 @@ module scr1_top_tb_axi (
     output  logic                       load,
     output  logic                       store,
     output  logic [31:0]                ls_addr,
+    output  logic [1:0]                 ls_width,
     output  logic                       exception,
     output  logic                       csr_instr
     );
@@ -248,6 +249,7 @@ assign rvc              = i_top.i_core_top.i_pipe_top.i_pipe_exu.rvc;
 assign load             = i_top.i_core_top.i_pipe_top.i_pipe_exu.load;
 assign store            = i_top.i_core_top.i_pipe_top.i_pipe_exu.store;
 assign ls_addr          = i_top.i_core_top.i_pipe_top.i_pipe_exu.ls_addr;
+assign ls_width         = i_top.i_core_top.i_pipe_top.i_pipe_exu.ls_width;
 assign exception        = i_top.i_core_top.i_pipe_top.i_pipe_exu.exception;
 assign csr_instr        = i_top.i_core_top.i_pipe_top.i_pipe_exu.csr_instr;
 
