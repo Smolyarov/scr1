@@ -49,7 +49,7 @@ parameter int unsigned          SCR1_CSR_MTVEC_BASE_VAL_BITS    = `SCR1_XLEN-SCR
 `define SCR1_BRKM_EN                // enables breakpoint module
 `define SCR1_IPIC_EN                // enables interrupt controller
 `define SCR1_IPIC_SYNC_EN           // enables IPIC synchronizer
-`define SCR1_TCM_EN                 // enables tightly-coupled memory
+// `define SCR1_TCM_EN                 // enables tightly-coupled memory
 
 `define SCR1_VECT_IRQ_EN            // enables vectored interrupts
 `define SCR1_CSR_MCOUNTEN_EN        // enables custom MCOUNTEN CSR
