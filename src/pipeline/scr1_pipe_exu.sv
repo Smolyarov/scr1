@@ -186,6 +186,18 @@ logic [`SCR1_XLEN-1:0]          inc_pc;
 logic                           exu_exc_req_r;
 `endif // SCR1_DBGC_EN
 
+// Analytics
+logic                           jump;
+logic                           branch_taken;
+logic                           branch_not_taken;
+logic [31:0]                    jb_addr;
+logic                           rvc;
+logic                           load;
+logic                           store;
+logic [31:0]                    ls_addr;
+logic                           exception;
+logic                           csr_instr;
+
 
 //-------------------------------------------------------------------------------
 // Instruction queue
@@ -739,6 +751,29 @@ posedge clk_alw_on
         end
     end
 end
+
+// Analytics
+always_ff @(posedge clk) begin
+    if (instret) begin
+        jump                <= exu_queue.jump_req;
+        branch_taken        <= exu_queue.branch_req & ialu_cmp;
+        branch_not_taken    <= exu_queue.branch_req & ~ialu_cmp;
+        jb_addr             <= new_pc;
+        rvc                 <= exu_queue.instr_rvc;
+        load                <=  (exu_queue.lsu_cmd == SCR1_LSU_CMD_LB) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_LH) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_LW) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_LBU) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_LHU);
+        store               <=  (exu_queue.lsu_cmd == SCR1_LSU_CMD_SB) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_SH) |
+                                (exu_queue.lsu_cmd == SCR1_LSU_CMD_SW);
+        ls_addr             <= ialu_sum2_res;
+        exception           <= exc_req;
+        csr_instr           <= exu2csr_r_req | exu2csr_w_req;
+    end
+end
+
 
 
 `ifdef SCR1_SIM_ENV

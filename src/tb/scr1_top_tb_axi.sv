@@ -42,7 +42,20 @@ module scr1_top_tb_axi (
     output  logic [`SCR1_XLEN-1:0]      gpr_x28,
     output  logic [`SCR1_XLEN-1:0]      gpr_x29,
     output  logic [`SCR1_XLEN-1:0]      gpr_x30,
-    output  logic [`SCR1_XLEN-1:0]      gpr_x31);
+    output  logic [`SCR1_XLEN-1:0]      gpr_x31,
+
+    // Analytics
+    output  logic                       jump,
+    output  logic                       branch_taken,
+    output  logic                       branch_not_taken,
+    output  logic [31:0]                jb_addr,
+    output  logic                       rvc,
+    output  logic                       load,
+    output  logic                       store,
+    output  logic [31:0]                ls_addr,
+    output  logic                       exception,
+    output  logic                       csr_instr
+    );
 
 //------------------------------------------------------------------------------
 // Local parameters
@@ -226,6 +239,17 @@ assign gpr_x28  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[28];
 assign gpr_x29  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[29];
 assign gpr_x30  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[30];
 assign gpr_x31  = i_top.i_core_top.i_pipe_top.i_pipe_mprf.mprf_int[31];
+
+assign jump             = i_top.i_core_top.i_pipe_top.i_pipe_exu.jump;
+assign branch_taken     = i_top.i_core_top.i_pipe_top.i_pipe_exu.branch_taken;
+assign branch_not_taken = i_top.i_core_top.i_pipe_top.i_pipe_exu.branch_not_taken;
+assign jb_addr          = i_top.i_core_top.i_pipe_top.i_pipe_exu.jb_addr;
+assign rvc              = i_top.i_core_top.i_pipe_top.i_pipe_exu.rvc;
+assign load             = i_top.i_core_top.i_pipe_top.i_pipe_exu.load;
+assign store            = i_top.i_core_top.i_pipe_top.i_pipe_exu.store;
+assign ls_addr          = i_top.i_core_top.i_pipe_top.i_pipe_exu.ls_addr;
+assign exception        = i_top.i_core_top.i_pipe_top.i_pipe_exu.exception;
+assign csr_instr        = i_top.i_core_top.i_pipe_top.i_pipe_exu.csr_instr;
 
 //------------------------------------------------------------------------------
 // Run tests
